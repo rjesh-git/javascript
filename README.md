@@ -255,63 +255,63 @@ Other Style Guides
   <a name="objects--quoted-props"></a><a name="3.8"></a>
   - [3.6](#objects--quoted-props) Only quote properties that are invalid identifiers. eslint: [`quote-props`](http://eslint.org/docs/rules/quote-props.html) jscs: [`disallowQuotedKeysInObjects`](http://jscs.info/rule/disallowQuotedKeysInObjects)
 
-  > Why? In general we consider it subjectively easier to read. It improves syntax highlighting, and is also more easily optimized by many JS engines.
+    > Why? In general we consider it subjectively easier to read. It improves syntax highlighting, and is also more easily optimized by many JS engines.
 
-  ```javascript
-  // bad
-  const bad = {
-    'foo': 3,
-    'bar': 4,
-    'data-blah': 5,
-  };
+    ```javascript
+    // bad
+    const bad = {
+      'foo': 3,
+      'bar': 4,
+      'data-blah': 5,
+    };
 
-  // good
-  const good = {
-    foo: 3,
-    bar: 4,
-    'data-blah': 5,
-  };
-  ```
+    // good
+    const good = {
+      foo: 3,
+      bar: 4,
+      'data-blah': 5,
+    };
+    ```
 
   <a name="objects--prototype-builtins"></a>
   - [3.7](#objects--prototype-builtins) Do not call `Object.prototype` methods directly, such as `hasOwnProperty`, `propertyIsEnumerable`, and `isPrototypeOf`.
 
-  > Why? These methods may be shadowed by properties on the object in question - consider `{ hasOwnProperty: false }` - or, the object may be a null object (`Object.create(null)`).
+    > Why? These methods may be shadowed by properties on the object in question - consider `{ hasOwnProperty: false }` - or, the object may be a null object (`Object.create(null)`).
 
-  ```javascript
-  // bad
-  console.log(object.hasOwnProperty(key));
+    ```javascript
+    // bad
+    console.log(object.hasOwnProperty(key));
 
-  // good
-  console.log(Object.prototype.hasOwnProperty.call(object, key));
+    // good
+    console.log(Object.prototype.hasOwnProperty.call(object, key));
 
-  // best
-  const has = Object.prototype.hasOwnProperty; // cache the lookup once, in module scope.
-  /* or */
-  import has from 'has';
-  …
-  console.log(has.call(object, key));
-  ```
+    // best
+    const has = Object.prototype.hasOwnProperty; // cache the lookup once, in module scope.
+    /* or */
+    import has from 'has';
+    // ...
+    console.log(has.call(object, key));
+    ```
 
   <a name="objects--rest-spread"></a>
   - [3.8](#objects--rest-spread) Prefer the object spread operator over [`Object.assign`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Object/assign) to shallow-copy objects. Use the object rest operator to get a new object with certain properties omitted.
 
-  ```javascript
-  // very bad
-  const original = { a: 1, b: 2 };
-  const copy = Object.assign(original, { c: 3 }); // this mutates `original` ಠ_ಠ
-  delete copy.a; // so does this
+    ```javascript
+    // very bad
+    const original = { a: 1, b: 2 };
+    const copy = Object.assign(original, { c: 3 }); // this mutates `original` ಠ_ಠ
+    delete copy.a; // so does this
 
-  // bad
-  const original = { a: 1, b: 2 };
-  const copy = Object.assign({}, original, { c: 3 }); // copy => { a: 1, b: 2, c: 3 }
+    // bad
+    const original = { a: 1, b: 2 };
+    const copy = Object.assign({}, original, { c: 3 }); // copy => { a: 1, b: 2, c: 3 }
 
-  // good
-  const original = { a: 1, b: 2 };
-  const copy = { ...original, c: 3 }; // copy => { a: 1, b: 2, c: 3 }
+    // good
+    const original = { a: 1, b: 2 };
+    const copy = { ...original, c: 3 }; // copy => { a: 1, b: 2, c: 3 }
 
-  const { a, ...noA } = copy; // noA => { b: 2, c: 3 }
-  ```
+    const { a, ...noA } = copy; // noA => { b: 2, c: 3 }
+    ```
 
 **[⬆ back to top](#table-of-contents)**
 
@@ -760,12 +760,12 @@ Other Style Guides
     // bad
     function f1(obj) {
       obj.key = 1;
-    };
+    }
 
     // good
     function f2(obj) {
       const key = Object.prototype.hasOwnProperty.call(obj, 'key') ? obj.key : 1;
-    };
+    }
     ```
 
   <a name="functions--reassign-params"></a><a name="7.13"></a>
@@ -898,7 +898,7 @@ Other Style Guides
 
     // good
     [1, 2, 3].map((number, index) => ({
-      [index]: number
+      [index]: number,
     }));
     ```
 
@@ -907,11 +907,11 @@ Other Style Guides
 
     > Why? It shows clearly where the function starts and ends.
 
-    ```js
+    ```javascript
     // bad
     ['get', 'post', 'put'].map(httpMethod => Object.prototype.hasOwnProperty.call(
         httpMagicObjectWithAVeryLongName,
-        httpMethod
+        httpMethod,
       )
     );
 
@@ -919,7 +919,7 @@ Other Style Guides
     ['get', 'post', 'put'].map(httpMethod => (
       Object.prototype.hasOwnProperty.call(
         httpMagicObjectWithAVeryLongName,
-        httpMethod
+        httpMethod,
       )
     ));
     ```
@@ -929,7 +929,7 @@ Other Style Guides
 
     > Why? Less visual clutter.
 
-    ```js
+    ```javascript
     // bad
     [1, 2, 3].map((x) => x * x);
 
@@ -957,7 +957,7 @@ Other Style Guides
   <a name="arrows--confusing"></a><a name="8.5"></a>
   - [8.5](#arrows--confusing) Avoid confusing arrow function syntax (`=>`) with comparison operators (`<=`, `>=`). eslint: [`no-confusing-arrow`](http://eslint.org/docs/rules/no-confusing-arrow)
 
-    ```js
+    ```javascript
     // bad
     const itemHeight = item => item.height > 256 ? item.largeSize : item.smallSize;
 
@@ -1022,13 +1022,13 @@ Other Style Guides
     }
     inherits(PeekableQueue, Queue);
     PeekableQueue.prototype.peek = function () {
-      return this._queue[0];
-    }
+      return this.queue[0];
+    };
 
     // good
     class PeekableQueue extends Queue {
       peek() {
-        return this._queue[0];
+        return this.queue[0];
       }
     }
     ```
@@ -1225,11 +1225,11 @@ Other Style Guides
     ```javascript
     // bad
     let foo = 3;
-    export { foo }
+    export { foo };
 
     // good
     const foo = 3;
-    export { foo }
+    export { foo };
     ```
 
   <a name="modules--prefer-default-export"></a>
@@ -1351,7 +1351,7 @@ Other Style Guides
 
     > Why? `function` and `*` are part of the same conceptual keyword - `*` is not a modifier for `function`, `function*` is a unique construct, different from `function`.
 
-    ```js
+    ```javascript
     // bad
     function * foo() {
       // ...
@@ -1360,17 +1360,17 @@ Other Style Guides
     // bad
     const bar = function * () {
       // ...
-    }
+    };
 
     // bad
     const baz = function *() {
       // ...
-    }
+    };
 
     // bad
     const quux = function*() {
       // ...
-    }
+    };
 
     // bad
     function*foo() {
@@ -1394,7 +1394,7 @@ Other Style Guides
     *
     () {
       // ...
-    }
+    };
 
     // good
     function* foo() {
@@ -1404,7 +1404,7 @@ Other Style Guides
     // good
     const foo = function* () {
       // ...
-    }
+    };
     ```
 
 **[⬆ back to top](#table-of-contents)**
@@ -1586,32 +1586,32 @@ Other Style Guides
     > Why? Per the eslint documentation, unary increment and decrement statements are subject to automatic semicolon insertion and can cause silent errors with incrementing or decrementing values within an application. It is also more expressive to mutate your values with statements like `num += 1` instead of `num++` or `num ++`. Disallowing unary increment and decrement statements also prevents you from pre-incrementing/pre-decrementing values unintentionally which can also cause unexpected behavior in your programs.
 
     ```javascript
-      // bad
+    // bad
 
-      let array = [1, 2, 3];
-      let num = 1;
-      num++;
-      --num;
+    let array = [1, 2, 3];
+    let num = 1;
+    num++;
+    --num;
 
-      let sum = 0;
-      let truthyCount = 0;
-      for(let i = 0; i < array.length; i++){
-        let value = array[i];
-        sum += value;
-        if (value) {
-          truthyCount++;
-        }
+    let sum = 0;
+    let truthyCount = 0;
+    for (let i = 0; i < array.length; i++) {
+      let value = array[i];
+      sum += value;
+      if (value) {
+        truthyCount++;
       }
+    }
 
-      // good
+    // good
 
-      let array = [1, 2, 3];
-      let num = 1;
-      num += 1;
-      num -= 1;
+    let array = [1, 2, 3];
+    let num = 1;
+    num += 1;
+    num -= 1;
 
-      const sum = array.reduce((a, b) => a + b, 0);
-      const truthyCount = array.filter(Boolean).length;
+    const sum = array.reduce((a, b) => a + b, 0);
+    const truthyCount = array.filter(Boolean).length;
     ```
 
 **[⬆ back to top](#table-of-contents)**
@@ -1780,9 +1780,9 @@ Other Style Guides
   <a name="comparison--switch-blocks"></a><a name="15.5"></a>
   - [15.5](#comparison--switch-blocks) Use braces to create blocks in `case` and `default` clauses that contain lexical declarations (e.g. `let`, `const`, `function`, and `class`).
 
-  > Why? Lexical declarations are visible in the entire `switch` block but only get initialized when assigned, which only happens when its `case` is reached. This causes problems when multiple `case` clauses attempt to define the same thing.
+    > Why? Lexical declarations are visible in the entire `switch` block but only get initialized when assigned, which only happens when its `case` is reached. This causes problems when multiple `case` clauses attempt to define the same thing.
 
-  eslint rules: [`no-case-declarations`](http://eslint.org/docs/rules/no-case-declarations.html).
+    eslint rules: [`no-case-declarations`](http://eslint.org/docs/rules/no-case-declarations.html).
 
     ```javascript
     // bad
@@ -1971,7 +1971,7 @@ Other Style Guides
     function getType() {
       console.log('fetching type...');
       // set the default type to 'no type'
-      const type = this._type || 'no type';
+      const type = this.type || 'no type';
 
       return type;
     }
@@ -1981,7 +1981,7 @@ Other Style Guides
       console.log('fetching type...');
 
       // set the default type to 'no type'
-      const type = this._type || 'no type';
+      const type = this.type || 'no type';
 
       return type;
     }
@@ -1989,7 +1989,7 @@ Other Style Guides
     // also good
     function getType() {
       // set the default type to 'no type'
-      const type = this._type || 'no type';
+      const type = this.type || 'no type';
 
       return type;
     }
@@ -2073,17 +2073,17 @@ Other Style Guides
     ```javascript
     // bad
     function foo() {
-    ∙∙∙∙const name;
+    ∙∙∙∙let name;
     }
 
     // bad
     function bar() {
-    ∙const name;
+    ∙let name;
     }
 
     // good
     function baz() {
-    ∙∙const name;
+    ∙∙let name;
     }
     ```
 
@@ -2521,7 +2521,7 @@ Other Style Guides
       lastName,
       inventorOf,
       ...heroArgs
-    )
+    );
     ```
 
 **[⬆ back to top](#table-of-contents)**
@@ -2546,10 +2546,10 @@ Other Style Guides
     }());
 
     // good, but legacy (guards against the function becoming an argument when two files with IIFEs are concatenated)
-    ;(() => {
+    ;((() => {
       const name = 'Skywalker';
       return name;
-    }());
+    })());
     ```
 
     [Read more](https://stackoverflow.com/questions/7365172/semicolon-before-self-invoking-function/7365214%237365214).
@@ -2620,9 +2620,9 @@ Other Style Guides
   - [21.5](#coercion--bitwise) **Note:** Be careful when using bitshift operations. Numbers are represented as [64-bit values](https://es5.github.io/#x4.3.19), but bitshift operations always return a 32-bit integer ([source](https://es5.github.io/#x11.7)). Bitshift can lead to unexpected behavior for integer values larger than 32 bits. [Discussion](https://github.com/airbnb/javascript/issues/109). Largest signed 32-bit Int is 2,147,483,647:
 
     ```javascript
-    2147483647 >> 0 //=> 2147483647
-    2147483648 >> 0 //=> -2147483648
-    2147483649 >> 0 //=> -2147483647
+    2147483647 >> 0; // => 2147483647
+    2147483648 >> 0; // => -2147483648
+    2147483649 >> 0; // => -2147483647
     ```
 
   <a name="coercion--booleans"></a><a name="21.6"></a>
@@ -2796,7 +2796,7 @@ Other Style Guides
     ```javascript
     const AirbnbStyleGuide = {
       es6: {
-      }
+      },
     };
 
     export default AirbnbStyleGuide;
@@ -2915,7 +2915,7 @@ Other Style Guides
     // bad
     $(this).trigger('listingUpdated', listing.id);
 
-    ...
+    // ...
 
     $(this).on('listingUpdated', (e, listingId) => {
       // do something with listingId
@@ -2928,7 +2928,7 @@ Other Style Guides
     // good
     $(this).trigger('listingUpdated', { listingId: listing.id });
 
-    ...
+    // ...
 
     $(this).on('listingUpdated', (e, data) => {
       // do something with data.listingId
@@ -2965,7 +2965,7 @@ Other Style Guides
       // ...
 
       $('.sidebar').css({
-        'background-color': 'pink'
+        'background-color': 'pink',
       });
     }
 
@@ -2977,7 +2977,7 @@ Other Style Guides
       // ...
 
       $sidebar.css({
-        'background-color': 'pink'
+        'background-color': 'pink',
       });
     }
     ```
@@ -3234,6 +3234,7 @@ Other Style Guides
   - **StratoDem Analytics**: [stratodem/javascript](https://github.com/stratodem/javascript)
   - **SteelKiwi Development**: [steelkiwi/javascript](https://github.com/steelkiwi/javascript)
   - **StudentSphere**: [studentsphere/javascript](https://github.com/studentsphere/guide-javascript)
+  - **SwoopApp**: [swoopapp/javascript](https://github.com/swoopapp/javascript)
   - **SysGarage**: [sysgarage/javascript-style-guide](https://github.com/sysgarage/javascript-style-guide)
   - **Syzygy Warsaw**: [syzygypl/javascript](https://github.com/syzygypl/javascript)
   - **Target**: [target/javascript](https://github.com/target/javascript)
@@ -3263,7 +3264,7 @@ Other Style Guides
   - ![jp](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/Japan.png) **Japanese**: [mitsuruog/javascript-style-guide](https://github.com/mitsuruog/javascript-style-guide)
   - ![kr](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/South-Korea.png) **Korean**: [tipjs/javascript-style-guide](https://github.com/tipjs/javascript-style-guide)
   - ![pl](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/Poland.png) **Polish**: [mjurczyk/javascript](https://github.com/mjurczyk/javascript)
-  - ![ru](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/Russia.png) **Russian**: [uprock/javascript](https://github.com/uprock/javascript)
+  - ![ru](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/Russia.png) **Russian**: [leonidlebedev/javascript-airbnb](https://github.com/leonidlebedev/javascript-airbnb)
   - ![es](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/Spain.png) **Spanish**: [paolocarrasco/javascript-style-guide](https://github.com/paolocarrasco/javascript-style-guide)
   - ![th](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/Thailand.png) **Thai**: [lvarayut/javascript-style-guide](https://github.com/lvarayut/javascript-style-guide)
   - ![vn](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/Vietnam.png) **Vietnam**: [hngiang/javascript-style-guide](https://github.com/hngiang/javascript-style-guide)

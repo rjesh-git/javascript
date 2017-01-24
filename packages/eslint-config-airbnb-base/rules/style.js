@@ -231,6 +231,10 @@ module.exports = {
     // disallow mixed spaces and tabs for indentation
     'no-mixed-spaces-and-tabs': 'error',
 
+    // disallow use of chained assignment expressions
+    // http://eslint.org/docs/rules/no-multi-assign
+    'no-multi-assign': ['error'],
+
     // disallow multiple empty lines and only one newline at the end
     'no-multiple-empty-lines': ['error', { max: 2, maxEOF: 1 }],
 
